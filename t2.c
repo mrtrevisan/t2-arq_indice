@@ -1,3 +1,9 @@
+/*  Pesquisa e Ordenação de Dados
+ *  Professor: Célio Trois
+ *  Alunos: Mauro Trevisan e Ramon Izidoro
+ *  Busca e manipulação de dados em memória secundária através de índices em memória principal.
+ */ 
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -10,13 +16,13 @@ typedef struct{
     int excluido;
 } reg_aluno;
 
-//TODO: Implementar um indice (em memoria) para facilitar a busca dos registros do arquivo
-//TODO: Alterar as funcoes de busca, insercao e exclusao para usar o indice
 typedef struct{
     int matr;
     int pos_seek;
     struct indice* prox;
 } indice;
+
+//////  Manipulação de Lista  ///////////////////////////////////////////////////////////////////////////////////////////////
 
 indice * lst_localiza_ultimo_menor(indice * inicio, int matricula){
     indice* p = inicio;	/* ponteiro para percorrer a lista	*/
@@ -94,7 +100,7 @@ void lst_imprime (indice* inicio)
    }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////  Manipulação de Arquivo  ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void mostra(FILE *arq, indice* ini){
     reg_aluno aluno;
@@ -114,7 +120,7 @@ int pesquisa(FILE* arq, indice* ini, int matr){
     return 0;
 }
 
-/*
+/*  ORIGINAL
 int pesquisa(FILE *arq, int matr, reg_aluno *al){
     reg_aluno aluno;
     rewind(arq);
@@ -138,7 +144,7 @@ void exclui(FILE *arq, int matr, indice* ini){
     }
 }
 
-/*
+/*  ORIGINAL
 void exclui(FILE *arq, int matr, indice* prim){
     reg_aluno aluno;
     if (pesquisa(arq, matr, &aluno)){
@@ -170,6 +176,8 @@ void copia_lista(FILE* arq, indice* prim){
             lst_insere_ordenado(&prim, aluno.matr, ftell(arq) - sizeof(reg_aluno));
         }
 }
+
+//////   Funcão Main   ///////////////////////////////////////////////////////////////////////////////////////////////
 
 int main(){
     int matr, op;
